@@ -1,0 +1,42 @@
+body {
+  background: black;
+  padding: 32px;
+  font-size: 24px;
+}
+
+.list-group-item {
+  background-color: black;
+  border-radius: 0 !important;
+  border: black;
+  padding: 5px 5px 5px 10px;
+  font-size: 120%;
+}
+
+#time {
+  margin: -20px;
+  font-size: 320%;
+}
+
+#day {
+  font-size: 90%;
+  color: lightgrey;
+}
+
+#date {
+  font-size: 120%;
+  color: peachpuff;
+}
+
+#list {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.task {
+  color: aquamarine;
+}
+
+.now {
+  font-weight: bold;
+}
