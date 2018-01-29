@@ -5,33 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>KØØLDASH</title>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row" id="calendar" v-cloak>
-        <div class="col-sm">
-          <div class="row">
-            <div id="clock" class="col-sm">{{time}}</div>
-            <div class="col-sm">
-              <div id="day" class="row">{{day}}</div>
-              <div id="date" class="row">{{date}} {{month}}</div>
-            </div>
-          </div>
-          <div class="row">
-            <ul id="list" class="list-group" v-for="item in items">
-              <li :class="itemClass(item)"><span class="time" v-if="item.time">{{item.time}}</span> {{item.text}}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm">
-          right
-        </div>
-      </div>
-    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.6/Rx.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-rx@5.0.0/dist/vue-rx.min.js"></script>
-    <script src="calendar.js"></script>
+    <script src="calendar/calendar.js"></script>
+    <script src="config.js"></script>
+    <title>KØØLDASH</title>
+  </head>
+  <body>
+    <div id="main" class="container-fluid">
+      <div class="row" v-cloak>
+        <calendar class="col-sm"></calendar>
+        <div class="col-sm">
+          <weather class="row">weather</weather>
+          <player class="row">player</player>
+        </div>
+      </div>
+    </div>
+    <script>new Vue({ el: "#main" });</script>
   </body>
 </html>

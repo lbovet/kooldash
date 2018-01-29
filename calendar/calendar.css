@@ -1,0 +1,34 @@
+#clock {
+  margin: -20px;
+  font-size: 320%;
+  color: white;
+}
+
+#day {
+  font-size: 90%;
+  color: lightgrey;
+}
+
+#date {
+  font-size: 120%;
+  color: peachpuff;
+}
+
+#list {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.task {
+  color: aquamarine;
+}
+
+.now {
+  font-weight: bold;
+}
+
+.time {
+  color: lightgrey;
+  margin-right: 6px;
+}
