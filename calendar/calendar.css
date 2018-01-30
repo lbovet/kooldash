@@ -1,5 +1,7 @@
 #clock {
-  margin: -20px;
+  margin-left: -5px;
+  margin-top: -20px;
+  margin-right: 56px;
   font-size: 320%;
   color: white;
 }
@@ -10,14 +12,13 @@
 }
 
 #date {
-  font-size: 120%;
+  font-size: 130%;
   color: peachpuff;
 }
 
 #list {
-  margin-top: 20px;
+  margin-top: 32px;
   width: 100%;
-  max-width: 420px;
 }
 
 .task {
@@ -26,6 +27,12 @@
 
 .now {
   font-weight: bold;
+  color: pink;
+  background-color: #202020;
+}
+
+.tomorrow {
+  color: lightgrey;
 }
 
 .time {

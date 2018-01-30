@@ -1,0 +1,21 @@
+<div id="weather">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manifestinteractive/weather-underground-icons@1.0.1/dist/wu-icons-style.min.css">
+  <link rel="stylesheet" href="weather/weather.css">
+  <div class="row">
+    <div class="col-sm today-icon">
+      <i :class="iconClass(currentIcon,128)"></i>
+    </div>
+    <div id="thermometer" class="col-sm">
+      {{currentTemp}}°
+    </div>
+    <div class="col-sm">
+      <div id="max" class="temp">{{maxTemp}}°</div>
+      <div id="min" class="temp">{{minTemp}}°</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm" v-for="forecast in forecasts">
+      <i :class="iconClass(forecast.CONDITION_KEY)"></i>
+    </div>
+  </div>
+</div>

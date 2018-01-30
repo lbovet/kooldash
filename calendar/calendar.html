@@ -1,6 +1,5 @@
 <div id="calendar">
   <link rel="stylesheet" href="calendar/calendar.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.2.2/ical.min.js"></script>
   <div class="row">
     <div id="clock" class="col-sm">{{time}}</div>
     <div class="col-sm">
@@ -9,9 +8,9 @@
     </div>
   </div>
   <div class="row">
-    <ul id="list" class="list-group" v-for="item in items">
-      <li :class="itemClass(item)">
-        <span class="time" v-if="item.time">{{item.time}}</span> {{item.text}}
+    <ul id="list" class="list-group">
+      <li :class="itemClass(item)" v-for="item in items">
+        <span class="time" v-if="item.time">{{item.time}}</span> {{item.summary}}
       </li>
     </ul>
   </div>

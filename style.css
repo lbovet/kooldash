@@ -12,11 +12,16 @@ body {
 .list-group-item {
   background-color: black;
   border-radius: 0 !important;
+  margin-top: 4px;
   border: black;
-  padding: 5px 5px 5px 10px;
+  padding: 5px 5px 5px 15px;
   font-size: 120%;
 }
 
-weather {
-  height: 60%;
+.left {
+  margin-right: 20px;
+}
+
+.right {
+  margin-left: 60px;
 }
