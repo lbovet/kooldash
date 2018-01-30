@@ -25,3 +25,20 @@
 #min {
   color: lightskyblue;
 }
+
+.forecast-icon {
+  margin-bottom: -20px;
+}
+
+.forecast-cell {
+  margin-top: 16px;
+}
+
+.forecasts {
+  margin-top: 0px;
+}
+
+.forecast-temp {
+  font-size: 108%;
+  color: lightgrey;
+}
