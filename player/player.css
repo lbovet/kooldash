@@ -1,0 +1,18 @@
+#channel {
+  width: 100%;
+  color: peachpuff;
+}
+
+#volume {
+  min-height: 56px;
+}
+
+.control {
+  padding-left: 24px;
+  margin-top: 12px;
+  opacity: 0.4;
+}
+
+.on {
+  opacity: 1;
+}

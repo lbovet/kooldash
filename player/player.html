@@ -1,0 +1,23 @@
+<div id="player" v-if="status && status.player_state != 'IDLE'">
+  <link rel="stylesheet" href="player/player.css">
+  <div id="channel" class="row pad">
+    <div class="col-sm-7">
+      <span v-if="status.media_metadata" class="larger">{{status.media_metadata.title}}</if>
+    </div>
+    <div class="col-sm-4">
+      <div>
+        <img src="player/play.png" :class="{ control: true, on: status.player_state == 'PLAYING'}">
+        <img src="player/pause.png" :class="{ control: true, on: status.player_state == 'PAUSED'}">
+      </div>
+    </div>
+    <div class="col-sm-1">
+      <div id="volume" class="progress progress-bar-vertical">
+        <div class="progress-bar" role="progressbar" :style="{ height: (status.volume_level*100)+'%' }">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pad" v-if="status.media_data">
+    <span v-if="status.media_data.artist">{{status.media_data.artist}}</span>
+  </div>
+</div>

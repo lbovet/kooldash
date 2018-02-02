@@ -5,8 +5,9 @@ var now$ = rx.timer(0, 1000).map(x => new Date())
 
 var events$ = () =>
   rx.timer(0, 60000)
-  .flatMap(_ => rx.ajax({ url: config.calendar.calendarUrl, responseType: "text" })
-    .flatMap(data => Object.values(ical.parseICS(data.response)))
+  .flatMap(_ => rx.ajax({ url: config.calendar.calendarUrl, crossDomain: true, responseType: "text" })
+    .map(data => Object.values(ical.parseICS(data.response)))
+    .flatMap(data => data)
     .filter(entry => entry.type == "VEVENT")
     .filter(event => !config.calendar.ignores.includes(event.summary))
     .flatMap(event => {
@@ -55,7 +56,7 @@ var events$ = () =>
 
 var tasks$ = () =>
   rx.timer(0, 60000)
-  .flatMap(_ => rx.ajax(config.calendar.tasksUrl)
+  .flatMap(_ => rx.ajax({ url: config.calendar.tasksUrl })
     .flatMap(data => data.response)
     .filter(task => config.calendar.taskLists.includes(task.idList))
     .map(task => Object({ summary: task.name, now: config.calendar.nowList == task.idList }))
@@ -66,12 +67,11 @@ var items$ = () => rx.combineLatest(events$(), tasks$(),
 
 var buses$ = () =>
   rx.timer(0, 60000)
-  .flatMap(_ => rx.ajax(config.calendar.busUrl)
+  .flatMap(_ => rx.ajax({ url: config.calendar.busUrl, crossDomain: true })
     .flatMap(data => data.response.connections)
     .map(connection => new Date(Date.parse(connection.from.departure)))
     .map(connection => Math.round((connection.getTime() - new Date().getTime()) / (60*1000)))
     .filter(minutes => minutes > 3 && minutes < 60)
-    .do(console.log)
     .take(2)
     .toArray())
 
@@ -104,5 +104,5 @@ Vue.component('calendar', function(resolve) {
 })
 
 function date() {
-  return new Date(2018, 1, 31);
+  return new Date();
 }

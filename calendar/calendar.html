@@ -1,9 +1,9 @@
 <div id="calendar">
-  <link rel="stylesheet" href="calendar/calendar.css"/>
+  <link rel="stylesheet" href="calendar/calendar.css">
   <div class="row">
     <div id="clock" class="col-sm pad">{{time}}</div>
     <div class="col-sm pad">
-      <div id="day" class="row">{{day}}</div>
+      <div id="day" class="row smaller">{{day}}</div>
       <div id="date" class="row larger">{{date}} {{month}}</div>
     </div>
     <div id="bus" class="pad" v-if="buses!=undefined && buses.length">
