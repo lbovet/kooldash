@@ -1,7 +1,7 @@
 #clock {
-  margin-left: -5px;
+  margin-left: 0px;
   margin-top: -20px;
-  margin-right: 56px;
+  margin-right: 32px;
   font-size: 320%;
   color: white;
 }
@@ -12,7 +12,6 @@
 }
 
 #date {
-  font-size: 130%;
   color: peachpuff;
 }
 
@@ -37,5 +36,19 @@
 
 .time {
   color: lightgrey;
-  margin-right: 6px;
+  margin-right: 2px;
+}
+
+#bus {
+  text-align: right;
+  padding-left: 42px;
+  padding-top: -16px;
+  margin-right: 16px;
+  margin-top: -6px;
+  color: aquamarine;
+  font-weight: bold;
+  background: url(bus.svg);
+  background-position: 0px 8px;
+  background-size: 32px;
+  background-repeat: no-repeat;
 }

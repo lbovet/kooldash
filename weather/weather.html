@@ -1,7 +1,7 @@
 <div id="weather">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/manifestinteractive/weather-underground-icons@1.0.1/dist/wu-icons-style.min.css">
   <link rel="stylesheet" href="weather/weather.css">
-  <div class="row" v-if="current">
+  <div class="row pad " v-if="current">
     <div class="col-sm today-icon">
       <i :class="iconClass(current.icon,128)"></i>
     </div>
@@ -13,7 +13,7 @@
       <div id="min" class="temp">{{current.tempMin}}°</div>
     </div>
   </div>
-  <div class="row forecasts">
+  <div class="row forecasts pad">
     <div class="col-sm-4 forecast-cell" v-for="forecast in forecasts">
       <i :class="[ 'forecast-icon', iconClass(forecast.icon, 64) ]"></i>
       <span class="forecast-temp">{{forecast.temp}}°</span>

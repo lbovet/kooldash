@@ -64,6 +64,17 @@ var tasks$ = () =>
 var items$ = () => rx.combineLatest(events$(), tasks$(),
   (events, tasks) => events.concat(tasks));
 
+var buses$ = () =>
+  rx.timer(0, 60000)
+  .flatMap(_ => rx.ajax(config.calendar.busUrl)
+    .flatMap(data => data.response.connections)
+    .map(connection => new Date(Date.parse(connection.from.departure)))
+    .map(connection => Math.round((connection.getTime() - new Date().getTime()) / (60*1000)))
+    .filter(minutes => minutes > 3 && minutes < 60)
+    .do(console.log)
+    .take(2)
+    .toArray())
+
 Vue.component('calendar', function(resolve) {
   rx.ajax({ url: "calendar/calendar.html", responseType: "text"})
   .map(data => Object({
@@ -73,7 +84,8 @@ Vue.component('calendar', function(resolve) {
       day: now$.map(now => days[now.getDay()]),
       date: now$.map(now => now.getUTCDate()),
       month: now$.map(now => months[now.getMonth()]),
-      items: items$()
+      items: items$(),
+      buses: buses$()
     },
     methods: {
       itemClass: function(item) {
@@ -92,5 +104,5 @@ Vue.component('calendar', function(resolve) {
 })
 
 function date() {
-  return new Date();
+  return new Date(2018, 1, 31);
 }

@@ -24,7 +24,6 @@ var forecasts$ = () => report$
       icon: pair[1].CONDITION_KEY,
       temp: Math.round(pair[1].TMP2m)
     }))
-    .do(console.log)
     .toArray())
 
 Vue.component('weather', function(resolve) {
