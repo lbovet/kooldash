@@ -4,7 +4,7 @@ var days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Same
 var now$ = rx.timer(0, 1000).map(x => new Date())
 
 var events$ = () =>
-  rx.timer(0, 60000)
+  rx.timer(0, 58000)
   .flatMap(_ => rx.ajax({ url: config.calendar.calendarUrl, crossDomain: true, responseType: "text" })
     .map(data => Object.values(ical.parseICS(data.response)))
     .flatMap(data => data)
@@ -55,7 +55,7 @@ var events$ = () =>
     }).toArray())
 
 var tasks$ = () =>
-  rx.timer(0, 60000)
+  rx.timer(0, 54000)
   .flatMap(_ => rx.ajax({ url: config.calendar.tasksUrl })
     .flatMap(data => data.response)
     .filter(task => config.calendar.taskLists.includes(task.idList))
@@ -66,14 +66,17 @@ var items$ = () => rx.combineLatest(events$(), tasks$(),
   (events, tasks) => events.concat(tasks));
 
 var buses$ = () =>
-  rx.timer(0, 60000)
-  .flatMap(_ => rx.ajax({ url: config.calendar.busUrl, crossDomain: true })
-    .flatMap(data => data.response.connections)
-    .map(connection => new Date(Date.parse(connection.from.departure)))
-    .map(connection => Math.round((connection.getTime() - new Date().getTime()) / (60*1000)))
+  rx.timer(0, 300000)
+    .flatMap(_ => rx.ajax({ url: config.calendar.busUrl, crossDomain: true })
+      .flatMap(data => data.response.connections)
+      .map(connection => new Date(Date.parse(connection.from.departure)))
+      .toArray())
+  .cacheRepeat(5000)
+  .flatMap( departures => rx.from(departures)
+    .map(departure => Math.round((departure.getTime() - date().getTime()) / (60*1000)))
     .filter(minutes => minutes > 3 && minutes < 60)
     .take(2)
-    .toArray())
+    .toArray().do(console.log))
 
 Vue.component('calendar', function(resolve) {
   rx.ajax({ url: "calendar/calendar.html", responseType: "text"})

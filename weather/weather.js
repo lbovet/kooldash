@@ -1,4 +1,4 @@
-var report$ = rx.timer(0, 180000)
+var report$ = rx.timer(0, 300000)
   .flatMap(_ => rx.ajax(config.weather.url)
     .map(data => data.response))
     .share();

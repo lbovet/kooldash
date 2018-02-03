@@ -14,3 +14,7 @@ window.main = new Vue({ el: "#main",
       });
     }
   })
+
+Rx.Observable.prototype.cacheRepeat = function(period) {
+  return this.combineLatest(Rx.Observable.timer(0,period)).map(_ => _[0])
+}
