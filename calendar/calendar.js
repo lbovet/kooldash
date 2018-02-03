@@ -36,7 +36,7 @@ var events$ = () =>
       today.setHours(0, 0, 0, 0);
       var tomorrow = new Date(today);
       tomorrow.setHours(now.getHours()+24);
-      return event.start > today && event.start < tomorrow ||
+      return event.start > now && event.start < tomorrow ||
         event.start < now && event.end > now;
     })
     .toArray()
