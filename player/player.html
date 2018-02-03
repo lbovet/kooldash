@@ -1,4 +1,4 @@
-<div id="player" v-if="status && status.player_state != 'IDLE'">
+<div id="player" v-if="status && status.player_state != 'IDLE'" v-on:keyup.up="up()">
   <link rel="stylesheet" href="player/player.css">
   <div id="channel" class="row pad">
     <div class="col-sm-7">
