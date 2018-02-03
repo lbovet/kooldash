@@ -101,6 +101,11 @@ Vue.component('calendar', function(resolve) {
           }
         }
       }
+    },
+    created: function() {
+      window.main.$on('t', function() {
+        window.open(config.calendar.tasksWebUrl, 'tasks');
+      });
     }
   }))
   .subscribe(resolve);
