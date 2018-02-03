@@ -1,6 +1,5 @@
 window.main = new Vue({ el: "#main",
   created: function() {
-    console.log("r")
       var vm = this;
       window.addEventListener('keyup', function(event) {
         switch(event.keyCode) {

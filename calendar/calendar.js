@@ -76,7 +76,7 @@ var buses$ = () =>
     .map(departure => Math.round((departure.getTime() - date().getTime()) / (60*1000)))
     .filter(minutes => minutes > 3 && minutes < 60)
     .take(2)
-    .toArray().do(console.log))
+    .toArray())
 
 Vue.component('calendar', function(resolve) {
   rx.ajax({ url: "calendar/calendar.html", responseType: "text"})
