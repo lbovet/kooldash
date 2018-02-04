@@ -107,8 +107,21 @@ Vue.component('calendar', function(resolve) {
       }
     },
     created: function() {
+      var calendarWin;
+      var taskWin;
+      window.main.$on('KeyC', function() {
+        if(calendarWin) {
+          calendarWin.focus();
+        } else {
+          calendarWin = window.open(config.calendar.calendarWebUrl, 'calendar');
+        }
+      });
       window.main.$on('KeyT', function() {
-        window.open(config.calendar.tasksWebUrl, 'tasks');
+        if(taskWin) {
+          taskWin.focus()
+        } else {
+          taskWin = window.open(config.calendar.tasksWebUrl, 'tasks');
+        }
       });
       window.main.$on('KeyO', function() {
         window.open(config.calendar.eggTimerUrl, 'egg');
