@@ -1,5 +1,8 @@
+var rx = Rx.Observable;
+
 var report$ = rx.timer(0, 300000)
   .flatMap(_ => rx.ajax(config.weather.url)
+    .swallowError()
     .map(data => data.response))
     .share();
 

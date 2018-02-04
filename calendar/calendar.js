@@ -1,4 +1,5 @@
 var rx = Rx.Observable;
+
 var months = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"]
 var days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
 var now$ = rx.timer(0, 1000).map(x => new Date())
@@ -6,6 +7,7 @@ var now$ = rx.timer(0, 1000).map(x => new Date())
 var events$ = () =>
   rx.timer(0, 58000)
   .flatMap(_ => rx.ajax({ url: config.calendar.calendarUrl, crossDomain: true, responseType: "text" })
+    .swallowError()
     .map(data => Object.values(ical.parseICS(data.response)))
     .flatMap(data => data)
     .filter(entry => entry.type == "VEVENT")
@@ -57,6 +59,7 @@ var events$ = () =>
 var tasks$ = () =>
   rx.timer(0, 54000)
   .flatMap(_ => rx.ajax({ url: config.calendar.tasksUrl })
+    .swallowError()
     .flatMap(data => data.response)
     .filter(task => config.calendar.taskLists.includes(task.idList))
     .map(task => Object({ summary: task.name, now: config.calendar.nowList == task.idList }))
@@ -68,6 +71,7 @@ var items$ = () => rx.combineLatest(events$(), tasks$(),
 var buses$ = () =>
   rx.timer(0, 300000)
     .flatMap(_ => rx.ajax({ url: config.calendar.busUrl, crossDomain: true })
+      .swallowError()
       .flatMap(data => data.response.connections)
       .map(connection => new Date(Date.parse(connection.from.departure)))
       .toArray())
@@ -103,8 +107,11 @@ Vue.component('calendar', function(resolve) {
       }
     },
     created: function() {
-      window.main.$on('t', function() {
+      window.main.$on('KeyT', function() {
         window.open(config.calendar.tasksWebUrl, 'tasks');
+      });
+      window.main.$on('KeyO', function() {
+        window.open(config.calendar.eggTimerUrl, 'egg');
       });
     }
   }))
