@@ -1,19 +1,18 @@
 .today-icon {
-  margin-left: 16px;
+  margin-left: 56px;
   margin-top: -24px;
-  margin-right: 26px;
+  margin-right: 64px;
 }
 
 #thermometer {
   margin-top: -20px;
-  font-size: 320%;
+  margin-right: 24px;
   color: white;
 }
 
 .temp {
   font-size: 108%;
   width: 2em;
-  margin-left: -8px;
   text-align: right;
   color: lightgrey;
 }

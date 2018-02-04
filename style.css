@@ -1,7 +1,7 @@
 body {
   background: black;
-  padding: 32px;
-  font-size: 24px;
+  padding: 24px;
+  font-size: 32px;
   color: beige;
 }
 
@@ -11,6 +11,7 @@ body {
 
 .list-group-item {
   background-color: black;
+  color: white;
   border-radius: 0 !important;
   margin-top: 4px;
   border: black;
@@ -22,16 +23,19 @@ body {
   font-size: 130%;
 }
 
+.big {
+  font-size: 280%;
+}
+
 .smaller {
     font-size: 90%;
 }
 
 .left {
-  margin-right: 10px;
+  margin-right: 24px;
 }
 
 .right {
-  margin-left: 20px;
 }
 
 .col-sm {

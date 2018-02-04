@@ -51,7 +51,7 @@ var events$ = () =>
       if(event.start.getDay() != now.getDay()) {
         event.tomorrow = true;
       }
-      if(event.start < now && event.end > now) {
+      if(event.start - now < 4*3600*1000 && event.end > now) {
         event.now = true;
       }
     }).toArray())
