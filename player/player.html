@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="player/player.css">
   <div id="channel" class="row pad">
     <div class="col-sm-7">
-      <span v-if="status.media_metadata" class="larger">{{status.media_metadata.title}}</if>
+      <span v-if="status.media_metadata && status.player_status != 'UNAVAILABLE'" class="larger">{{status.media_metadata.title}}</if>
     </div>
     <div class="col-sm-4">
       <div>
