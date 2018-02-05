@@ -1,8 +1,10 @@
 body {
   background: black;
-  padding: 24px;
+  padding-top: 20px;
+  padding-left: 16px;
   font-size: 32px;
   color: beige;
+  overflow: hidden;
 }
 
 [v-cloak] {
@@ -17,34 +19,40 @@ body {
   border: black;
   padding: 5px 5px 5px 15px;
   font-size: 120%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .larger {
-  font-size: 130%;
+  font-size: 120%;
 }
 
 .big {
   font-size: 280%;
 }
 
-.smaller {
-    font-size: 90%;
-}
-
 .left {
-  margin-right: 24px;
+  max-width: 50%;
 }
 
 .right {
+  max-width: 50%;
 }
 
 .col-sm {
   padding: 0;
 }
 
+.line {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .pad {
-  padding-left: 12px;
-  padding: right: 12px;
+  padding-left: 20px;
+  padding-right: 6px;
 }
 
 .sep {
@@ -54,7 +62,6 @@ body {
 .dim {
   opacity: 0.7;
 }
-
 
 .progress-bar {
   background-color: #46b0e4;

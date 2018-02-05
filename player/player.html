@@ -1,23 +1,26 @@
-<div id="player" v-if="status && status.player_state != 'IDLE'" v-on:keyup.up="up()">
+<div id="player" v-if="status && status.player_state != 'IDLE' && status.media_metadata" v-on:keyup.up="up()">
   <link rel="stylesheet" href="player/player.css">
-  <div id="channel" class="row pad">
-    <div class="col-sm-7">
-      <span v-if="status.media_metadata && status.player_status != 'UNAVAILABLE'" class="larger">{{status.media_metadata.title}}</if>
+  <div id="artist" class="row pad line">
+      <span v-if="status.media_metadata.artist" class="larger">{{status.media_metadata.artist}}</span>&nbsp;
+  </div>
+  <div class="row pad line">
+    <span v-if="status.media_metadata.title">{{status.media_metadata.title}}</span>&nbsp;
+  </div>
+  <div class="row pad">
+    <div id="name" class="line">
+      <span v-if="status.media_metadata.name">{{status.media_metadata.name}}</span>&nbsp;
     </div>
-    <div class="col-sm-4">
+    <div>
       <div>
         <img src="player/play.png" :class="{ control: true, on: status.player_state == 'PLAYING'}">
         <img src="player/pause.png" :class="{ control: true, on: status.player_state == 'PAUSED'}">
       </div>
     </div>
-    <div class="col-sm-1">
+    <div>
       <div id="volume" class="progress progress-bar-vertical">
         <div class="progress-bar" role="progressbar" :style="{ height: (status.volume_level*100)+'%' }">
         </div>
       </div>
     </div>
-  </div>
-  <div class="row pad" v-if="status.media_data">
-    <span v-if="status.media_data.artist">{{status.media_data.artist}}</span>
   </div>
 </div>
