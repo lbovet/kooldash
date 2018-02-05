@@ -12,7 +12,7 @@ body {
 }
 
 .list-group-item {
-  background-color: black;
+  background-color: rgba(0,0,0,0);
   color: white;
   border-radius: 0 !important;
   margin-top: 4px;
@@ -29,7 +29,8 @@ body {
 }
 
 .big {
-  font-size: 280%;
+  margin-top: -16px;
+  font-size: 260%;
 }
 
 .left {

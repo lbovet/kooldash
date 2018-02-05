@@ -1,3 +1,9 @@
+if(window.require) {
+  window.ical = require('ical');
+  window.RRule = require('rrule');
+  window. rrulestr = RRule.rrulestr;
+}
+
 var rx = Rx.Observable;
 
 var months = ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"]

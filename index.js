@@ -6,6 +6,9 @@ window.main = new Vue({ el: "#main",
       window.addEventListener('keyup', function(event) {
         vm.$emit(event.code);
       });
+      window.addEventListener('keyup', function(event) {
+        vm.$emit(event.code);
+      });
     }
   })
 

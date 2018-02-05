@@ -1,7 +1,6 @@
 #clock {
-  margin-left: 0px;
-  margin-top: -20px;
-  margin-right: 26px;
+  margin-left: 12px;
+  margin-right: 12px;
   color: white;
 }
 
@@ -42,9 +41,9 @@
 
 #bus {
   text-align: right;
-  padding-left: 42px;
+  padding-left: 38px;
   padding-top: -16px;
-  margin-top: -6px;
+  margin-top: -8px;
   color: aquamarine;
   font-weight: bold;
   background: url(bus.svg);
