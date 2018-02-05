@@ -1,9 +1,9 @@
 <div id="player" v-if="status && status.player_state != 'IDLE' && status.media_metadata" v-on:keyup.up="up()">
   <link rel="stylesheet" href="player/player.css">
-  <div id="artist" class="row pad line">
+  <div id="artist" class="line">
       <span v-if="status.media_metadata.artist" class="larger">{{status.media_metadata.artist}}</span>&nbsp;
   </div>
-  <div class="row pad line">
+  <div class="line">
     <span v-if="status.media_metadata.title">{{status.media_metadata.title}}</span>&nbsp;
   </div>
   <div class="row pad">
