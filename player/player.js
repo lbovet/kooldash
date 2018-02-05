@@ -16,6 +16,18 @@ Vue.component('player', function(resolve) {
     subscriptions: {
       status: status$()
     },
+    methods: {
+      wheel: function(e) {
+          if (!this.transitioning) {
+              if (e.deltaY > 0) {
+                window.main.$emit('ArrowDown');
+              } else {
+                  window.main.$emit('ArrowUp');
+              }
+          }
+          if (this._isPageChanged()) e.preventDefault();
+      }
+    },
     created: function() {
       window.main.$on('ArrowUp', function() {
         rx.ajax({ url: config.player.url+"/control/up", method: "POST"}).subscribe();

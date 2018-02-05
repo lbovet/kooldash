@@ -4,7 +4,7 @@
     <div id="clock" class="col-sm pad big">{{time}}</div>
     <div class="col-sm pad">
       <div id="day" class="row">{{day}}</div>
-      <div id="date" class="row larger">30 Décembre</div>
+      <div id="date" class="row larger">{{date}} {{month}}</div>
     </div>
     <div id="bus" v-if="buses!=undefined && buses.length">
       <div :class="{ larger: i==0, dim: i==1 }" v-for="(bus,i) in buses">{{bus}}'</div>
