@@ -1,0 +1,9 @@
+{
+  "name": "kooldash",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "ical": "^0.5.0",
+    "rrule": "^2.2.0"
+  }
+}
