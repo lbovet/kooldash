@@ -27,7 +27,7 @@
 .now {
   font-weight: bold;
   color: pink;
-  background-color: #202020;
+  background-color: rgba(255,255,255,0.1);
 }
 
 .tomorrow {
