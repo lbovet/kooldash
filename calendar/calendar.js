@@ -12,7 +12,7 @@ var now$ = rx.timer(0, 1000).map(x => new Date())
 
 var events$ = () =>
   rx.timer(0, 58000)
-  .flatMap(_ => rx.ajax({ url: config.calendar.calendarUrl, crossDomain: true, responseType: "text" })
+  .flatMap(_ => rx.from(config.calendar.calendarUrls).flatMap( url => rx.ajax({ url: url, crossDomain: true, responseType: "text" }))    
     .swallowError()
     .map(data => Object.values(ical.parseICS(data.response)))
     .flatMap(data => data)

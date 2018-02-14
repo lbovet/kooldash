@@ -4,7 +4,7 @@ var report$ = rx.timer(0, 300000)
   .flatMap(_ => rx.ajax(config.weather.url)
     .swallowError()
     .map(data => data.response))
-    .share();
+  .share();
 
 var current$ = () => report$
   .map(report => Object({
