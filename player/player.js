@@ -35,12 +35,13 @@ Vue.component('player', function(resolve) {
       window.main.$on('ArrowDown', function() {
         rx.ajax({ url: config.player.url+"/control/down", method: "POST"}).subscribe();
       })
-      window.main.$on('Digit1', function() {
-        rx.ajax({ url: config.player.url+"/control/1", method: "POST"}).subscribe();
-      })
-      window.main.$on('Digit3', function() {
-        rx.ajax({ url: config.player.url+"/control/3", method: "POST"}).subscribe();
-      })
+      for(i=0;i<10;i++) {        
+        window.main.$on('Digit'+i, function(i) {
+          return function() {
+            rx.ajax({ url: config.player.url+"/control/"+i, method: "POST"}).subscribe();
+          }
+        }(i));    
+      }
       window.main.$on('Space', function() {
         if(state == "PLAYING") {
           rx.ajax({ url: config.player.url+"/control/pause", method: "POST"}).subscribe();
