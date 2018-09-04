@@ -12,7 +12,7 @@ var now$ = rx.timer(0, 1000).map(x => new Date())
 
 var events$ = () =>
   rx.timer(0, 58000)
-  .flatMap(_ => rx.from(config.calendar.calendarUrls).flatMap( url => rx.ajax({ url: url, crossDomain: true, responseType: "text" }))    
+  .flatMap(_ => rx.from(config.calendar.calendarUrls).flatMap( url => rx.ajax({ url: url, crossDomain: true, responseType: "text" }))
     .swallowError()
     .map(data => Object.values(ical.parseICS(data.response)))
     .flatMap(data => data)
@@ -131,6 +131,16 @@ Vue.component('calendar', function(resolve) {
       });
       window.main.$on('KeyO', function() {
         window.open(config.calendar.eggTimerUrl, 'egg');
+      });
+      window.main.$on('KeyL', function() {
+        rx.from(tasks$)
+          .map(task => task.id)
+          .do(console.log)
+          .filter(config.calendar.laundryTaskid)
+          .isEmpty()
+          .map(e => e ? config.calendar.nowList : config.calendar.choreList)
+          .subscribe(list =>
+            rx.ajax({ method: "PUT", url: config.calendar.moveLaundryTask+list}).subscribe());
       });
     }
   }))
