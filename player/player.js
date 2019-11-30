@@ -49,6 +49,9 @@ Vue.component('player', function(resolve) {
           rx.ajax({ url: config.player.url+"/control/play", method: "POST"}).subscribe();
         }
       })
+      window.main.$on('KeyR', function () {
+        rx.ajax({ url: config.player.url + "/control/ent", method: "POST" }).subscribe();
+      })
     }
   }))
   .subscribe(resolve);
