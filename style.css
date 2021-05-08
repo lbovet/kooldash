@@ -88,3 +88,21 @@ body {
   -o-transition: height 1s ease;
   transition: height 1s ease;
 }
+
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(emoji.ttf) format('truetype');
+    unicode-range: U+1F300-1F5FF
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(emoji.ttf) format('truetype');
+    unicode-range: U+1F300-1F5FF
+}
