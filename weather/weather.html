@@ -3,9 +3,11 @@
   <link rel="stylesheet" href="weather/weather.css">
   <div class="row pad" v-if="current">
     <div class="col-sm today-icon">
-      <i :class="iconClass(current.icon,128)"></i>
+      <img width="160" :src="'weather/icons/'+current.icon+'.png'"/>
     </div>
-    <div id="thermometer" class="col-sm big">{{current.temp}}°</div>
+    <div id="thermometer" class="col-sm big">
+      {{Math.floor(current.temp)}}<span class="decimal">.&nbsp;{{Math.round(10*(current.temp-Math.floor(current.temp)))}}</span>°
+    </div>
     <div class="col-sm">
       <div id="max" class="temp">{{current.tempMax}}°</div>
       <div id="min" class="temp">{{current.tempMin}}°</div>
@@ -13,7 +15,7 @@
   </div>
   <div class="row forecasts pad">
     <div class="col-sm-4 forecast-cell" v-for="forecast in forecasts">
-      <i :class="[ 'forecast-icon', iconClass(forecast.icon, 64) ]"></i>
+      <img width="64" :src="'weather/icons/'+forecast.icon+'.png'" />
       <span class="forecast-temp">{{forecast.temp}}°</span>
     </div>
   </div>

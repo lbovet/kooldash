@@ -1,92 +1,76 @@
 var rx = Rx.Observable;
 
-var report$ = rx.timer(0, 300000)
-  .flatMap(_ => rx.ajax(config.weather.url)
+var forecastData$ = rx.timer(0, 4 * 60 * 60 * 1000)
+  .debounceTime(500)
+  .map(_ => new Date().getHours())
+  .filter(hour => hour < 23 && hour > 3)
+  .flatMap(_ => rx.ajax({
+    url: config.weather.authUrl,
+    method: 'POST',
+    headers: {
+      Authorization: "Basic " + config.weather.credentials
+    }
+  })
     .swallowError()
-    .map(data => data.response))
+    .map(data => data.response.access_token))
+  .flatMap(token => rx.ajax({
+    url: config.weather.forecastUrl,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  })
+    .swallowError()
+    .do(data => console.log("Weather calls available: "+data.xhr.getResponseHeader("x-ratelimit-available")))
+    .map(data => data.response.forecast))
   .share();
 
-var current$ = () => report$
-  .map(report => Object({
-    icon: report.current_condition.condition_key,
-    temp: report.current_condition.tmp,
-    tempMax: report.fcst_day_0.tmax,
-    tempMin: report.fcst_day_0.tmin
-  }));
+var currentCondition$ = forecastData$
+  .flatMap(forecast => forecast["60minutes"])
+  .filter(entry =>
+    entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11) + new Date().getHours()))
 
-var forecasts$ = () => report$
-  .flatMap(report => rx.from([ report.fcst_day_0, report.fcst_day_1 ])
-    .flatMap(day => rx.pairs(day.hourly_data)
-      .map(pair => [ pair[0].length == 5 ? pair[0]: "0"+pair[0], pair[1]])
-      .toArray()
-      .flatMap(arr => arr.sort((l,r) => l[0].localeCompare(r[0])))
-    )
-    .filter(pair => pair[0] == "10H00" || pair[0] == "14H00" || pair[0] == "18H00")
-    .map(pair => Object({
-      time: pair[0].replace("H", ":"),
-      icon: pair[1].CONDITION_KEY,
-      temp: Math.round(pair[1].TMP2m)
+var today$ = forecastData$
+  .flatMap(forecast => forecast["day"])
+  .filter(entry =>
+    entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11)))
+
+var currentMeasure$ = rx.timer(0, 2 * 60 * 1000)
+  .flatMap(_ => rx.ajax(config.weather.currentUrl)
+    .swallowError()
+    .map(data => data.response))
+  .flatMap(report => report.features)
+  .filter(feature => feature.id == "NEU")
+  .share();
+
+var current$ = () =>
+  rx.combineLatest(currentMeasure$, currentCondition$, today$,
+    (measure, current, today) =>
+      Object({
+        icon: current.SYMBOL_CODE,
+        temp: measure.properties.value,
+        tempMax: today.TX_C,
+        tempMin: today.TN_C
+      }));
+
+var forecasts$ = () => forecastData$
+  .flatMap(forecast => rx.from(forecast["hour"])
+    .filter(entry =>
+      ["08", "14", "17"].indexOf(entry.local_date_time.substring(11, 13)) != -1)
+    .take(6)
+    .map(forecast => Object({
+      icon: forecast.SYMBOL_CODE,
+      temp: forecast.TTT_C
     }))
     .toArray())
 
-Vue.component('weather', function(resolve) {
-  rx.ajax({ url: "weather/weather.html", responseType: "text"})
-  .map(data => Object({
-    template: data.response,
-    subscriptions: {
-      current: current$(),
-      forecasts: forecasts$()
-    },
-    methods: {
-      iconClass: function(icon, size) {
-        var result = {
-          wu: true,
-          "wu-white": true,
-          "wu-night": (icon.indexOf("nuit") != -1)
-        }
-        result["wu-"+size] = true;
-        result["wu-"+icons[icon]] = true;
-        return result;
+Vue.component('weather', function (resolve) {
+  rx.ajax({ url: "weather/weather.html", responseType: "text" })
+    .map(data => Object({
+      template: data.response,
+      subscriptions: {
+        current: current$(),
+        forecasts: forecasts$()
       }
-    }
-  }))
-  .subscribe(resolve);
+    }))
+    .subscribe(resolve);
 })
-
-var icons = {
-  "ensoleille": "clear",
-  "nuit-claire": "clear",
-  "ciel-voile": "partlycloudy",
-  "nuit-legerement-voilee": "partlycloudy",
-  "faibles-passages-nuageux": "partlycloudy",
-  "nuit-bien-degagee": "partlycloudy",
-  "brouillard": "fog",
-  "stratus": "fog",
-  "stratus-se-dissipant": "partlycloudy",
-  "nuit-claire-et-stratus": "partlycloudy",
-  "eclaircies": "partlysunny",
-  "nuit-nuageuse": "cloudy",
-  "faiblement-nuageux": "partlycloudy",
-  "fortement-nuageux": "cloudy",
-  "averses-de-pluie-faible": "chancerain",
-  "nuit-avec-averses": "rain",
-  "averses-de-pluie-moderee": "rain",
-  "averses-de-pluie-forte": "rain",
-  "couvert-avec-averses": "chancerain",
-  "pluie-faible": "chancerain",
-  "pluie-forte": "rain",
-  "pluie-moderee": "rain",
-  "developpement-nuageux": "mostlycloudy",
-  "nuit-avec-developpement-nuageux": "mostlycloudy",
-  "faiblement-orageux": "chancetstorms",
-  "nuit-faiblement-orageuse": "chancetstorms",
-  "orage-modere": "tstorms",
-  "fortement-orageux": "tstorms",
-  "averses-de-neige-faible": "chancerain",
-  "nuit-avec-averses-de-neige-faible": "chancesnow",
-  "neige-faible": "chancesnow",
-  "neige-moderee": "snow",
-  "neige-forte": "snow",
-  "pluie-et-neige-melee-faible": "chanceflurries",
-  "pluie-et-neige-melee-moderee": "chanceflurries"
-}

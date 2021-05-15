@@ -16,6 +16,10 @@
   color: lightgrey;
 }
 
+.decimal {
+  font-size: 32px;
+}
+
 #max {
   color: pink;
 }
