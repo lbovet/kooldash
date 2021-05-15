@@ -3,7 +3,6 @@ var rx = Rx.Observable;
 var forecastData$ = rx.timer(0, 4 * 60 * 60 * 1000)
   .debounceTime(500)
   .map(_ => new Date().getHours())
-  .filter(hour => hour < 23 && hour > 3)
   .flatMap(_ => rx.ajax({
     url: config.weather.authUrl,
     method: 'POST',
@@ -19,9 +18,11 @@ var forecastData$ = rx.timer(0, 4 * 60 * 60 * 1000)
       Authorization: "Bearer " + token
     }
   })
-    .swallowError()
-    .do(data => console.log("Weather calls available: "+data.xhr.getResponseHeader("x-ratelimit-available")))
+    .do(data => console.log("Weather calls available: " + data.xhr.getResponseHeader("x-ratelimit-available")))
     .map(data => data.response.forecast))
+  .catch(e => { console.log(e.message); return rx.of(null) })
+  .do(forecast => forecast && localStorage.setItem('weather.forecast', JSON.stringify(forecast)))
+  .map(forecast => forecast || JSON.parse(localStorage.getItem('weather.forecast')))
   .share();
 
 var currentCondition$ = forecastData$
