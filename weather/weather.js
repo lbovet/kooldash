@@ -1,25 +1,8 @@
 var rx = Rx.Observable;
 
-var forecastData$ = rx.timer(0, 4 * 60 * 60 * 1000)
-  .debounceTime(500)
-  .map(_ => new Date().getHours())
-  .flatMap(_ => rx.ajax({
-    url: config.weather.authUrl,
-    method: 'POST',
-    headers: {
-      Authorization: "Basic " + config.weather.credentials
-    }
-  })
-    .swallowError()
-    .map(data => data.response.access_token))
-  .flatMap(token => rx.ajax({
-    url: config.weather.forecastUrl,
-    headers: {
-      Authorization: "Bearer " + token
-    }
-  })
-    .do(data => console.log("Weather calls available: " + data.xhr.getResponseHeader("x-ratelimit-available")))
-    .map(data => data.response.forecast))
+var forecastData$ = rx.timer(0, 60 * 1000)
+  .flatMap(token => rx.ajax(config.weather.forecastUrl)
+    .map(data => data.response.forecasts.forecast))
   .catch(e => { console.log(e.message); return rx.of(null) })
   .do(forecast => forecast && localStorage.setItem('weather.forecast', JSON.stringify(forecast)))
   .map(forecast => forecast || JSON.parse(localStorage.getItem('weather.forecast')))
