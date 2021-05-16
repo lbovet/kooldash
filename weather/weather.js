@@ -1,7 +1,9 @@
 var rx = Rx.Observable;
 
-var forecastData$ = rx.timer(0, 60 * 1000)
-  .flatMap(token => rx.ajax(config.weather.forecastUrl)
+var forecastData$ =
+  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 60 * 1000))
+  .debounceTime(500)
+  .flatMap(_ => rx.ajax(config.weather.forecastUrl)
     .map(data => data.response.forecasts.forecast))
   .catch(e => { console.log(e.message); return rx.of(null) })
   .do(forecast => forecast && localStorage.setItem('weather.forecast', JSON.stringify(forecast)))
@@ -18,7 +20,9 @@ var today$ = forecastData$
   .filter(entry =>
     entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11)))
 
-var currentMeasure$ = rx.timer(0, 2 * 60 * 1000)
+var currentMeasure$ =
+  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 2 * 60 * 1000))
+  .debounceTime(500)
   .flatMap(_ => rx.ajax(config.weather.currentUrl)
     .swallowError()
     .map(data => data.response))
