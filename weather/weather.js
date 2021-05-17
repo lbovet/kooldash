@@ -43,7 +43,8 @@ var current$ = () =>
 var forecasts$ = () => forecastData$
   .flatMap(forecast => rx.from(forecast["hour"])
     .filter(entry =>
-      ["08", "14", "17"].indexOf(entry.local_date_time.substring(11, 13)) != -1)
+      ["11", "14", "17"].indexOf(entry.local_date_time.substring(11, 13)) != -1)
+      .do(console.log)
     .take(6)
     .map(forecast => Object({
       icon: forecast.SYMBOL_CODE,

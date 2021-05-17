@@ -4,7 +4,10 @@ window.main = new Vue({ el: "#main",
   created: function() {
       var vm = this;
       window.addEventListener('keyup', function(event) {
-        vm.$emit(event.code);
+        if(event.ctrlKey || event.shiftKey || event.altKey) {
+          return;
+        }
+        vm.$emit(event.code.replace("Numpad", "Digit"));
       });
     }
   })
