@@ -13,7 +13,7 @@ var forecastData$ =
 var currentCondition$ = forecastData$
   .flatMap(forecast => forecast["60minutes"])
   .filter(entry =>
-    entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11) + new Date().getHours()))
+    entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11) +(""+new Date().getHours()).padStart(2, "0")))
 
 var today$ = forecastData$
   .flatMap(forecast => forecast["day"])

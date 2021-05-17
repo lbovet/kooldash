@@ -73,8 +73,17 @@ var tasks$ = () =>
       .map(task => Object({ summary: task.name, now: config.calendar.nowList == task.idList }))
       .toArray())
 
-var items$ = () => rx.combineLatest(events$(), tasks$(),
-  (events, tasks) => events.concat(tasks));
+var notes$ = () =>
+  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 55000))
+    .debounceTime(500)
+    .flatMap(_ => rx.ajax({ url: config.calendar.notesUrl })
+      .swallowError()
+      .flatMap(data => data.response.notes)
+      .map(note => Object({ summary: note, now: true }))
+      .toArray())
+
+var items$ = () => rx.combineLatest(events$(), notes$(), tasks$(),
+  (events, notes, tasks) => events.concat(notes).concat(tasks));
 
 var buses$ = () =>
   rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 300000))
