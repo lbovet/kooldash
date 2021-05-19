@@ -1,7 +1,7 @@
 var rx = Rx.Observable;
 
 var forecastData$ =
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 60 * 1000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 60 * 1000))
   .debounceTime(500)
   .flatMap(_ => rx.ajax(config.weather.forecastUrl)
     .map(data => data.response.forecasts.forecast))
@@ -21,7 +21,7 @@ var today$ = forecastData$
     entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11)))
 
 var currentMeasure$ =
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 2 * 60 * 1000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 2 * 60 * 1000))
   .debounceTime(500)
   .flatMap(_ => rx.ajax(config.weather.currentUrl)
     .swallowError()

@@ -11,7 +11,7 @@ var days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Same
 var now$ = rx.timer(0, 1000).map(x => new Date())
 
 var events$ = () =>
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 58000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 58000))
     .debounceTime(500)
     .flatMap(_ => rx.from(config.calendar.calendarUrls).flatMap(url => rx.ajax({ url: url, crossDomain: true, responseType: "text" }))
       .swallowError()
@@ -64,7 +64,7 @@ var events$ = () =>
       }).toArray())
 
 var tasks$ = () =>
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 54000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 54000))
     .debounceTime(500)
     .flatMap(_ => rx.ajax({ url: config.calendar.tasksUrl })
       .swallowError()
@@ -74,7 +74,7 @@ var tasks$ = () =>
       .toArray())
 
 var notes$ = () =>
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 55000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 55000))
     .debounceTime(500)
     .flatMap(_ => rx.ajax({ url: config.calendar.notesUrl })
       .swallowError()
@@ -86,7 +86,7 @@ var items$ = () => rx.combineLatest(events$(), notes$(), tasks$(),
   (events, notes, tasks) => events.concat(notes).concat(tasks));
 
 var buses$ = () =>
-  rx.merge(rx.fromEvent(window, 'online'), rx.timer(0, 300000))
+  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 300000))
     .debounceTime(500)
     .flatMap(_ => rx.ajax({ url: config.calendar.busUrl, crossDomain: true })
       .swallowError()
