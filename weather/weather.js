@@ -1,11 +1,11 @@
 var rx = Rx.Observable;
 
 var forecastData$ =
-  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 60 * 1000))
-  .debounceTime(500)
+  rx.merge(rx.fromEvent(window, 'online').delay(8000), rx.timer(0, 60 * 1000))
+  .debounceTime(10000)
   .flatMap(_ => rx.ajax(config.weather.forecastUrl)
+    .swallowError()
     .map(data => data.response.forecasts.forecast))
-  .catch(e => { console.log(e.message); return rx.of(null) })
   .do(forecast => forecast && localStorage.setItem('weather.forecast', JSON.stringify(forecast)))
   .map(forecast => forecast || JSON.parse(localStorage.getItem('weather.forecast')))
   .share();
@@ -21,8 +21,8 @@ var today$ = forecastData$
     entry.local_date_time.startsWith(new Date().toISOString().substring(0, 11)))
 
 var currentMeasure$ =
-  rx.merge(rx.fromEvent(window, 'online').delay(3000), rx.timer(0, 2 * 60 * 1000))
-  .debounceTime(500)
+  rx.merge(rx.fromEvent(window, 'online').delay(8000), rx.timer(0, 2 * 60 * 1000))
+  .debounceTime(10000)
   .flatMap(_ => rx.ajax(config.weather.currentUrl)
     .swallowError()
     .map(data => data.response))
