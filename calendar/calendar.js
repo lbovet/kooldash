@@ -96,7 +96,7 @@ var buses$ = () =>
     .cacheRepeat(5000)
     .flatMap(departures => rx.from(departures)
       .map(departure => Math.round((departure.getTime() - date().getTime()) / (60 * 1000)))
-      .filter(minutes => minutes > 3 && minutes < 60)
+      .filter(minutes => minutes >=0 && minutes < 60)
       .take(2)
       .toArray())
 
